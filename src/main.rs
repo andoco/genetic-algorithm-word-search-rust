@@ -133,3 +133,21 @@ fn print_population(population: &Vec<Chromosome>) {
 fn format(chromosome: &Chromosome) -> String {
     String::from_utf8(chromosome.clone()).unwrap()
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn test_score_fitness() {
+        for (value, target, expected_score, msg) in [
+            ("AAA", "BBB", 3, "none equal"),
+            ("ABA", "BBB", 2, "one equal"),
+            ("ABB", "BBB", 1, "two equal"),
+            ("BBB", "BBB", 0, "all equal"),
+        ] {
+            let score = score_fitness(&value.as_bytes().to_vec(), &target.as_bytes().to_vec());
+            assert_eq!(expected_score, score, "{}", msg);
+        }
+    }
+}
